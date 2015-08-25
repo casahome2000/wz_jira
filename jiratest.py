@@ -6,7 +6,7 @@ import json
 from config import ProjectIssues
 
 dateTODAY = datetime.datetime.now()
-jira = JIRA('https://weezlabs.atlassian.net', basic_auth=('admin', 'J1tt3r88'))
+jira = JIRA('https://weezlabs.atlassian.net', basic_auth=('admin', 'W11z_Labs'))
 
 
 projects = jira.projects()
