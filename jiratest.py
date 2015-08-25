@@ -4,9 +4,10 @@ from dateHandler import MyEncoder
 import datetime
 import json
 from config import ProjectIssues
+from account import Creds
 
 dateTODAY = datetime.datetime.now()
-jira = JIRA('https://weezlabs.atlassian.net', basic_auth=('admin', 'W11z_Labs'))
+jira = JIRA(Creds.JIRA_SITE, basic_auth=(Creds.USER_NAME, Creds.PASSWORD))
 
 
 projects = jira.projects()
