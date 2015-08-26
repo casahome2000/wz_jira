@@ -9,8 +9,11 @@ from account import Creds
 dateTODAY = datetime.datetime.now()
 jira = JIRA(Creds.JIRA_SITE, basic_auth=(Creds.USER_NAME, Creds.PASSWORD))
 
-createdVersions = []
 createdEpics = []
+
+def convertHoursToSeconds(hours):
+	seconds = (hours*60)*60
+	return seconds
 
 def createEpicsInProject(projKey):
 	epics = ProjectIssues.EPICS['phases']
@@ -34,7 +37,7 @@ def createEpicsInProject(projKey):
 		}
 
 		issue = jira.create_issue(fields=fields)
-		createdEpics.append(issue)
+		createdEpics.append(issue.key)
 
 	return
 
@@ -47,8 +50,51 @@ def createVersions(projKey):
 										 startDate=version['startdate'],
 										 releaseDate=version['releasedate'],
 										 description=version['description'])
-		createdVersions.append(newVersion)
 
+	return
+
+def createIssues(projKey):
+	issues = ProjectIssues.ISSUES['issues']
+	for issue in issues:
+		issue_dict = {
+			'project': {'key': projKey},
+			'summary': issue['summary'],
+    		'description': issue['description'],
+    		'issuetype': {'name': 'Story'},
+			'fixVersions': [{
+								'name': issue['fixversion'] #needs to be the name of the version
+							}]
+			# 'timeoriginalestimate':convertHoursToSeconds(issue['duration'])
+		}
+
+		newIssue = jira.create_issue(fields=issue_dict)
+		#TODO: the below if/elif should be in a function and refactored (not efficient)
+		if issue['epic'] == 1:
+			jira.add_issues_to_epic(createdEpics[0],[newIssue.key])
+			continue
+		elif issue['epic'] == 2:
+			jira.add_issues_to_epic(createdEpics[1],[newIssue.key])
+			continue
+		elif issue['epic'] == 3:
+			jira.add_issues_to_epic(createdEpics[2],[newIssue.key])
+			continue
+		elif issue['epic'] == 4:
+			jira.add_issues_to_epic(createdEpics[3],[newIssue.key])
+			continue
+		elif issue['epic'] == 5:
+			jira.add_issues_to_epic(createdEpics[4],[newIssue.key])
+			continue
+		elif issue['epic'] == 6:
+			jira.add_issues_to_epic(createdEpics[5],[newIssue.key])
+			continue
+		elif issue['epic'] == 7:
+			jira.add_issues_to_epic(createdEpics[6],[newIssue.key])
+			continue
+		elif issue['epic'] == 8:
+			jira.add_issues_to_epic(createdEpics[7],[newIssue.key])
+			continue
+		else:
+			continue
 	return
 
 
@@ -95,18 +141,23 @@ def createProject(projectKey, projectName, lead):
 	createVersions(new_project_Key)
 	print('Creating the Epics for the %s project' % projectName)
 	createEpicsInProject(new_project_Key)
+	print('Creating the Issues for the %s project (this may take some time)' % projectName)
+	createIssues(new_project_Key) #could be done in multi-thread but really...it's a script
 	print('=======================================')
 	print('=== Successfully Created %s project ===' % projectName)
 	print('=======================================')
-	#TODO: create issues in config file
-	#TODO: create issues in the project create_issue
-	#TODO: link the issue created to the appropriate epic (may take some refactoring)
+	#TODO: switch project board to estimated hours from story points (board config?)
 	#TODO: write deleteProject()
+
 	#TODO: create ticket with Atlassian for orphaned board after project delete
+	#TODO: create ticket with Atlassian for API not allowing timeoriginalestimate via REST calls for issues
 
 	return
 
-createProject(projectKey='JIL', projectName='Jill', lead='admin')
+createProject(projectKey='CODY', projectName='Cody', lead='admin')
+
+
+
 
 
 
