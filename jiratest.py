@@ -128,8 +128,15 @@ def calcStartReleaseDatesForVersions(versions):
 
 	return
 
+def deleteProject(projectKey):
+	#TODO: add user option to abort IF don't want to delete project
+	return jira.delete_project(projectKey)
 
 def createProject(projectKey, projectName, lead):
+
+	if deleteProject(projectKey):
+		print("% project exists: PROJECT DELETED" % projectName)
+
 	print('=======================================')
 	print('Creating Project: %s' % projectName)
 	new_project = jira.create_project(key=projectKey, name=projectName, assignee=lead)
@@ -146,15 +153,15 @@ def createProject(projectKey, projectName, lead):
 	print('=======================================')
 	print('=== Successfully Created %s project ===' % projectName)
 	print('=======================================')
-	#TODO: switch project board to estimated hours from story points (board config?)
-	#TODO: write deleteProject()
 
-	#TODO: create ticket with Atlassian for orphaned board after project delete
+	#TODO: create ticket with Atlassian for orphaned board after project delete (cause=delete_board method does not remove)
 	#TODO: create ticket with Atlassian for API not allowing timeoriginalestimate via REST calls for issues
+	#TODO: create ticket with Atlassian for API not allowing interrogation of boards (change est to hrs from points)
 
 	return
 
 createProject(projectKey='CODY', projectName='Cody', lead='admin')
+
 
 
 
