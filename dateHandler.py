@@ -34,7 +34,5 @@ class MyEncoder(json.JSONEncoder):
 
         return json.JSONEncoder.default(self, obj)
 
-# print json.dumps(obj, cls = MyEncoder)
 
-
-print date_by_adding_business_days(datetime.datetime(dateTODAY.year,dateTODAY.month,dateTODAY.day), 10,Holidays)
+# print date_by_adding_business_days(datetime.datetime(dateTODAY.year,dateTODAY.month,dateTODAY.day), 10,Holidays)

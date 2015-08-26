@@ -3,7 +3,6 @@ import dateHandler
 from dateHandler import MyEncoder
 import datetime
 import json
-import time
 from config import ProjectIssues
 from account import Creds
 
@@ -85,29 +84,29 @@ def calcStartReleaseDatesForVersions(versions):
 
 
 def createProject(projectKey, projectName, lead):
-	# print('=======================================')
-	# print('Creating Project: %s' % projectName)
+	print('=======================================')
+	print('Creating Project: %s' % projectName)
 	new_project = jira.create_project(key=projectKey, name=projectName, assignee=lead)
-	# print('Creating the Board for the %s project' % projectName)
-	# time.sleep(2)
+	print('Creating the Board for the %s project' % projectName)
 	jira.create_board(name=projectName, project_ids=[new_project['projectId']])
 	new_project_Key = new_project['projectKey']
-	# print('Creating the Release Version for the %s project' % projectName)
-	# calcStartReleaseDatesForVersions(ProjectIssues.VERSIONS['versions'])
+	print('Creating the Release Version for the %s project' % projectName)
+	calcStartReleaseDatesForVersions(ProjectIssues.VERSIONS['versions'])
 	createVersions(new_project_Key)
-	# print('Creating the Epics for the %s project' % projectName)
+	print('Creating the Epics for the %s project' % projectName)
 	createEpicsInProject(new_project_Key)
-	# print('=======================================')
-	# print('=== Successfully Created %s project ===' % projectName)
-	# print('=======================================')
+	print('=======================================')
+	print('=== Successfully Created %s project ===' % projectName)
+	print('=======================================')
 	#TODO: create issues in config file
 	#TODO: create issues in the project create_issue
 	#TODO: link the issue created to the appropriate epic (may take some refactoring)
 	#TODO: write deleteProject()
+	#TODO: create ticket with Atlassian for orphaned board after project delete
 
 	return
 
-createProject(projectKey='CAR', projectName='Carlos', lead='admin')
+createProject(projectKey='JIL', projectName='Jill', lead='admin')
 
 
 
