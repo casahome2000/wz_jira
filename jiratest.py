@@ -132,6 +132,15 @@ def deleteProject(projectKey):
 	#TODO: add user option to abort IF don't want to delete project
 	return jira.delete_project(projectKey)
 
+def checkIfProject(projectKey):
+	projects = jira.projects()
+	for project in projects:
+		if project.key == projectKey:
+			return True
+		else:
+			return False
+	return False
+
 def createProject(projectKey, projectName, lead):
 
 	if deleteProject(projectKey):
@@ -159,8 +168,6 @@ def createProject(projectKey, projectName, lead):
 	#TODO: create ticket with Atlassian for API not allowing interrogation of boards (change est to hrs from points)
 
 	return
-
-createProject(projectKey='CODY', projectName='Cody', lead='admin')
 
 
 
