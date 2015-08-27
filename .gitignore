@@ -9,7 +9,7 @@ __pycache__/
 *.so
 
 ## Directory-based project format:
-*.idea/
+.idea/
 
 # Distribution / packaging
 .Python
