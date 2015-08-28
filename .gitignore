@@ -9,7 +9,7 @@ __pycache__/
 *.so
 
 ## Directory-based project format:
-*.idea/
+.idea/*
 
 # Distribution / packaging
 .Python
@@ -64,8 +64,12 @@ target/
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 workspace.xml
+>>>>>>> develop
+=======
+.idea/workspace.xml
 >>>>>>> develop
 
 account.py
